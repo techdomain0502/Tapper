@@ -16,7 +16,7 @@ class ViewModelFactory(private val application: Application) :ViewModelProvider.
             }
 
             LockViewModel::class.java ->{
-                LockViewModel() as T
+                LockViewModel(application) as T
             }
             else ->{
                  throw RuntimeException("no such viewmodel")

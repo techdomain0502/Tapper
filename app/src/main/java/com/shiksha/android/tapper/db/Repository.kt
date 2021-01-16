@@ -6,6 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.Executors
@@ -13,7 +16,7 @@ import java.util.concurrent.Executors
 class Repository(val context: Context) {
     private val pattern = "dd-MM-yyyy"
     var dateInString: String = SimpleDateFormat(pattern).format(Date())
-
+    var io = Dispatchers.IO
     init {
 
     }
@@ -27,7 +30,10 @@ class Repository(val context: Context) {
 
     init {
         taskDao = database.getTaskDao()
+        CoroutineScope(io).launch {
             taskDao.insertTask(Task(0,"dummy",dateInString,0))
+        }
+
 
     }
 
@@ -44,5 +50,8 @@ class Repository(val context: Context) {
         taskDao.updateTaskCount(count,dateInString)
     }
 
+    fun updateTaskName(name:String){
+        taskDao.updateTaskName(name,dateInString)
+    }
 
 }

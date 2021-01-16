@@ -21,5 +21,8 @@ interface TaskDao {
     @Query("UPDATE tasks SET count=:count where date like :date")
     fun updateTaskCount(count:Int,date:String)
 
+    @Query("UPDATE tasks SET name=:name where date like :date")
+    fun updateTaskName(name:String,date:String)
+
 
 }
